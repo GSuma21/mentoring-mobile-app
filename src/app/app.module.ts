@@ -21,6 +21,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PrivateModule } from './modules/private/private.module';
 
 export const translateHttpLoaderFactory = (httpClient: HttpClient) =>
   new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -33,6 +34,7 @@ export const translateHttpLoaderFactory = (httpClient: HttpClient) =>
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    PrivateModule,
     IonicStorageModule.forRoot({
       name: 'mentoringApp',
       driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],

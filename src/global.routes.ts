@@ -29,4 +29,6 @@ export class CommonRoutes {
     public static ADMIN= 'admin';
     public static MANAGE_USER= 'manage-user';
     public static BULK_UPLOAD= 'bulk-upload';
+    public static PRIVATE= 'private';
+    
 }
