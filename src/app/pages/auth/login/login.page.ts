@@ -112,7 +112,7 @@ export class LoginPage implements OnInit {
         this.userService.userEvent.next(user);
         console.log(this.id)
         if (this.returnUrl) {
-          this.router.navigateByUrl(this.returnUrl);
+          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
           // this.router.navigate([`/${CommonRoutes.SESSIONS_DETAILS}/${this.id}`], { replaceUrl: true });
           this.menuCtrl.enable(true);
         }else if(this.mentorId){
