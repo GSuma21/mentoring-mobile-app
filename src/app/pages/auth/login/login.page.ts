@@ -65,17 +65,19 @@ export class LoginPage implements OnInit {
   labels = ["LOGIN_TO_MENTOR_ED"];
   mentorId: any;
   supportInfo: any;
+  returnUrl;
   privacyPolicyUrl =environment.privacyPolicyUrl;
   termsOfServiceUrl = environment.termsOfServiceUrl;
   constructor(private authService: AuthService, private router: Router,private utilService: UtilService,
               private menuCtrl: MenuController, private activatedRoute: ActivatedRoute,private profileService: ProfileService,
-              private translateService: TranslateService, private localStorage: LocalStorageService, private userService: UserService) {
+              private translateService: TranslateService, private localStorage: LocalStorageService, private userService: UserService, private route: ActivatedRoute,) {
     this.menuCtrl.enable(false);
   }
 
   ngOnInit() {
     this.translateText();
     this.getMailInfo();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   async translateText() {
@@ -91,12 +93,14 @@ export class LoginPage implements OnInit {
     })
   }
 
-  ionViewWillEnter() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.id = params.sessionId ? params.sessionId : this.id;
-      this.mentorId = params.mentorId? params.mentorId:this.mentorId;
-    });
-  }
+  // ionViewWillEnter() {
+  //   this.activatedRoute.queryParams.subscribe(params => {
+  //     console.log(params)
+  //     this.id = params.sessionId ? params.sessionId : this.id;
+  //     console.log(this.id)
+  //     this.mentorId = params.mentorId? params.mentorId:this.mentorId;
+  //   });
+  // }
 
   async onSubmit() {
     this.form1.onSubmit();
@@ -106,8 +110,10 @@ export class LoginPage implements OnInit {
         this.utilService.ionMenuShow(true)
         let user = await this.profileService.getProfileDetailsFromAPI();
         this.userService.userEvent.next(user);
-        if (this.id) {
-          this.router.navigate([`/${CommonRoutes.SESSIONS_DETAILS}/${this.id}`], { replaceUrl: true });
+        console.log(this.id)
+        if (this.returnUrl) {
+          this.router.navigateByUrl(this.returnUrl);
+          // this.router.navigate([`/${CommonRoutes.SESSIONS_DETAILS}/${this.id}`], { replaceUrl: true });
           this.menuCtrl.enable(true);
         }else if(this.mentorId){
           this.router.navigate([`/${CommonRoutes.MENTOR_DETAILS}/${this.mentorId}`], { replaceUrl: true });
